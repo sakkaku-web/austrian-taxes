@@ -6,7 +6,7 @@ from db import tax_values
 
 class TaxEntry(BaseModel):
     range_from: float
-    range_to: float
+    range_to: Optional[float]
     percentage: Optional[float]
     absolute: Optional[float]
 
@@ -56,13 +56,20 @@ def get_tax_values(year=datetime.now().year) -> TaxValues:
 
 def _parse_tax_entries(obj: dict) -> list[TaxEntry]:
     curr = 0
+    percentage = 0
+    absolute = None
     result = []
     for key in obj.keys():
         value = obj[key]
-        percentage = value if value <= 1 else None
-        absolute = value if value > 1 else None
         result.append(TaxEntry(range_from=curr, range_to=key,
                       percentage=percentage, absolute=absolute))
+
+        percentage = value if value <= 1 else None
+        absolute = value if value > 1 else None
+        curr = key
+    
+    result.append(TaxEntry(range_from=curr, range_to=None, percentage=percentage, absolute=absolute))
+
     return result
 
 
