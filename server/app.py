@@ -1,20 +1,42 @@
 from flask import Flask, request
 from tax_data import get_tax_values
-from tax_calc import calc_work_taxes
+from tax_calc import calc_work_taxes, calc_freelance_taxes
 from datetime import datetime
+from pydantic import BaseModel
+from typing import Optional
 
 app = Flask(__name__)
 
 
-@app.post("/api/tax-worker")
-def calc_tax_worker():
+class CalculationRequest(BaseModel):
+    income: float
+    year: Optional[int]
+
+
+def _parse_request() -> CalculationRequest:
     data = request.json
     year = data['year'] if 'year' in data else datetime.now().year
-    tax_values = get_tax_values(year)
-    if tax_values:
-        return calc_work_taxes(data['income'], tax_values).dict()
+    return CalculationRequest(income=data['income'], year=year)
 
-    return {'message': f'No tax information for year {year}'}, 400
+
+@app.post("/api/tax-freelance")
+def calc_tax_freelance():
+    req = _parse_request()
+    tax_values = get_tax_values(req.year)
+    if tax_values:
+        return calc_freelance_taxes(req.income, tax_values).dict()
+
+    return {'message': f'No tax information for year {req.year}'}, 400
+
+
+@app.post("/api/tax-employee")
+def calc_tax_employee():
+    req = _parse_request()
+    tax_values = get_tax_values(req.year)
+    if tax_values:
+        return calc_work_taxes(req.income, tax_values).dict()
+
+    return {'message': f'No tax information for year {req.year}'}, 400
 
 
 @app.get("/api/tax/<int:year>")

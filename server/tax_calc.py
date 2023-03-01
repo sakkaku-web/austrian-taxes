@@ -16,6 +16,18 @@ class WorkerTaxSummary(BaseModel):
     christmas: TaxData
     yearly: TaxData
 
+class FreelanceTaxSummary(BaseModel):
+    total: TaxData
+
+def calc_freelance_taxes(income: float, tax_values: TaxValues) -> FreelanceTaxSummary:
+    insurance = 0 # TODO
+    taxable = income - insurance
+    tax = _calc_with_entries_stacked(taxable, tax_values)
+    total = TaxData(brutto=income, insurance=insurance, tax=tax)
+    total.netto = _calc_netto(total)
+
+    return FreelanceTaxSummary(total=total)
+
 
 def calc_work_taxes(income: float, tax_values: TaxValues) -> WorkerTaxSummary:
     insurance = _calc_insurance(income, tax_values.insurance_work)
