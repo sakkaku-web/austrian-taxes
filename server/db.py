@@ -14,6 +14,12 @@ tax_values = {
             2117: 0.1712,
             5550: 1900.32,
         },
+        'insurance-self': {
+            'percentage': 26.83,
+            'absolute': 10.97 * 12, # Unfallversicherung
+            'min_income': 500.91 * 12,
+            'max_income': 6825 * 12
+        },
         'tax-work': {  # percent same as tax-self
             985.42: 197.08,
             1605.50: 357.63,

@@ -26,3 +26,5 @@ and everything related to it.
 - https://www.wko.at/service/steuern/Sonstige_Bezuege_-\_Lohnsteuerliche_Behandlung_-_FAQ.html
 - https://www.agenda-austria.at/berechnungslogik/
 - https://www.wko.at/service/steuern/Im_Nebenberuf_Unternehmer.html
+- https://www.wko.at/service/arbeitsrecht-sozialrecht/Sozialversicherung_der_Gewerbetreibenden.html
+- https://www.wko.at/service/arbeitsrecht-sozialrecht/aktuelle-werte-2023.html 

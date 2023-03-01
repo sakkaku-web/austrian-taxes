@@ -26,6 +26,12 @@ def calc_freelance_taxes(income: float, tax_values: TaxValues) -> FreelanceTaxSu
     total = TaxData(brutto=income, insurance=insurance, tax=tax)
     total.netto = _calc_netto(total)
 
+    # TODO: flag if also an employee
+
+    # Umsatzsteuer?
+    # Ausgaben? Pauschalisierung?
+    # Gewinnfreibetrag
+
     return FreelanceTaxSummary(total=total)
 
 
