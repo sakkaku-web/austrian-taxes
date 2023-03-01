@@ -69,9 +69,6 @@ def _calc_insurance(value: float, tax_entries: list[TaxEntry]) -> float:
 
 def _calc_work_tax(value: float, tax_entries: list[TaxEntry], flat: TaxFlatValues) -> float:
     entry = _find_entry_for_value(value, tax_entries)
-
-    print(entry)
-
     taxes = value * entry.percentage
 
     # Assuming no AVAB, not considering children
